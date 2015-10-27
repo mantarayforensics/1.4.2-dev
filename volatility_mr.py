@@ -141,10 +141,16 @@ def error_logging(outfile,folder_path,selected_profile,plugin,output,win_plugins
 
 			##debug printing###
 			#print(error)
-
-			outfile.write(plugin + " encountered an ERROR/WARNING" + error + "\n")
-			error_outfile.write(plugin + " encountered an ERROR/WARNING" + error + "\n")
-		
+			#outfile.write("")
+			outfile.write(plugin + " encountered an ERROR/WARNING\n")
+			#outfile.write("")
+			outfile.write(error + "\n\n")
+			
+			#error_outfile.write("")
+			error_outfile.write(plugin + " encountered an ERROR/WARNING\n")
+			#error_outfile.write("")
+			error_outfile.write(error + "\n\n")
+			
 			#log Windows errors for reporting
 			windows = ['Win','Vista']
 			for item in windows:
@@ -156,7 +162,9 @@ def error_logging(outfile,folder_path,selected_profile,plugin,output,win_plugins
 	#Report successful process
 	if count == 0:
 		print("Finished successfully...")
-		outfile.write("Finished successfully...\n")
+		outfile.write("")
+		outfile.write("Plugin: " + plugin + "\n")
+		outfile.write("Finished successfully...\n\n")
 
 def volatility_mr(case_number, root_folder_path,  evidence, selected_profile, selected_plugin, selected_plugin_descr, complete_plugin_list):
 
@@ -214,7 +222,7 @@ def volatility_mr(case_number, root_folder_path,  evidence, selected_profile, se
 			descr = selected_plugin_descr[num_index]
 			print("\nRunning " + plugin + "...")
 			print(descr + "...")
-			print("The plugin" + plugin + " is not supported...")
+			print("The plugin " + plugin + " is not supported...")
 			print("This plugin has advanced features.  Run manually...")
 			outfile.write("The plugin " + plugin + " is not supported...\n")
 			outfile.write("This plugin has advanced features.  Run manually...\n\n")
@@ -296,10 +304,11 @@ def volatility_mr(case_number, root_folder_path,  evidence, selected_profile, se
 		if plugin in xp_2003_only_plugins: 
 			if re.search('XP', selected_profile):
 				print("\nRunning [Windows XP and 2003 Only] plugin...")
-				continue
 
 			elif re.search('2003', selected_profile):
 				print("\nRunning [Windows XP and 2003 Only] plugin...")
+
+			else:
 				continue
 
 		xp_only_plugins = ['sockets','sockscan']
@@ -320,10 +329,6 @@ def volatility_mr(case_number, root_folder_path,  evidence, selected_profile, se
 			else:
 				continue
 
-
-
-
-
 		####ADD NEW MODULE####
 		#elif plugin == <plugin name>:	
 		#	print("\nRunning " + plugin + "...")
@@ -332,7 +337,6 @@ def volatility_mr(case_number, root_folder_path,  evidence, selected_profile, se
 		#	output = Popen([<plugin name>_command], shell=True, stderr=PIPE)
 		#	error_logging(outfile,folder_path,selected_profile,plugin,output,win_plugins_error)
 		#	win_plugins_complete.append('devicetree')
-
 
 		try:
 			num_index = complete_plugin_list.index(plugin)
@@ -364,7 +368,6 @@ def volatility_mr(case_number, root_folder_path,  evidence, selected_profile, se
 	os.chdir(folder_path)
 
 	#run text files through unix2dos
-	print("\nRunning unix2dos for compatibility for viewing output in Windows...\n")
 	for root, dirs, files in os.walk(folder_path):
 		for filenames in files:
 			#get file extension
